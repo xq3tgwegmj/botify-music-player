@@ -636,6 +636,31 @@ body {
     background: rgba(168, 85, 247, 0.15);
 }
 
+/* Loop Song Indicator */
+.control-btn .loop-indicator {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 16px;
+    height: 16px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn.active .loop-indicator {
+    display: flex;
+}
+
+.control-btn.secondary {
+    position: relative;
+}
+
 /* ============================================
    Animations
    ============================================ */

@@ -16,7 +16,8 @@ const state = {
     songs: [],
     currentSongIndex: -1,
     isPlaying: false,
-    isLooping: false,
+    isLoopingSong: false,
+    isLoopingPlaylist: false,
     isShuffling: false,
     audio: new Audio(),
     shuffleOrder: []
@@ -58,6 +59,7 @@ const elements = {
     playBtn: document.getElementById('play-btn'),
     prevBtn: document.getElementById('prev-btn'),
     nextBtn: document.getElementById('next-btn'),
+    loopSongBtn: document.getElementById('loop-song-btn'),
     loopBtn: document.getElementById('loop-btn'),
     shuffleBtn: document.getElementById('shuffle-btn')
 };
@@ -153,7 +155,7 @@ function playNext() {
     } else {
         nextIndex = state.currentSongIndex + 1;
         if (nextIndex >= state.songs.length) {
-            if (state.isLooping) {
+            if (state.isLoopingPlaylist) {
                 nextIndex = 0;
             } else {
                 return;
@@ -176,7 +178,7 @@ function playPrevious() {
     let prevIndex = state.currentSongIndex - 1;
 
     if (prevIndex < 0) {
-        if (state.isLooping) {
+        if (state.isLoopingPlaylist) {
             prevIndex = state.songs.length - 1;
         } else {
             state.audio.currentTime = 0;
@@ -187,9 +189,15 @@ function playPrevious() {
     playSong(prevIndex);
 }
 
-function toggleLoop() {
-    state.isLooping = !state.isLooping;
-    elements.loopBtn.classList.toggle('active', state.isLooping);
+function toggleLoopSong() {
+    state.isLoopingSong = !state.isLoopingSong;
+    state.audio.loop = state.isLoopingSong;
+    elements.loopSongBtn.classList.toggle('active', state.isLoopingSong);
+}
+
+function toggleLoopPlaylist() {
+    state.isLoopingPlaylist = !state.isLoopingPlaylist;
+    elements.loopBtn.classList.toggle('active', state.isLoopingPlaylist);
 }
 
 function toggleShuffle() {
@@ -228,7 +236,8 @@ elements.miniPrev.addEventListener('click', (e) => {
     e.stopPropagation();
     playPrevious();
 });
-elements.loopBtn.addEventListener('click', toggleLoop);
+elements.loopSongBtn.addEventListener('click', toggleLoopSong);
+elements.loopBtn.addEventListener('click', toggleLoopPlaylist);
 elements.shuffleBtn.addEventListener('click', toggleShuffle);
 
 // Progress bar interaction
@@ -271,11 +280,9 @@ state.audio.addEventListener('timeupdate', () => {
 });
 
 state.audio.addEventListener('ended', () => {
-    if (state.isLooping && state.songs.length === 1) {
-        // Loop single song
-        state.audio.currentTime = 0;
-        state.audio.play();
-    } else {
+    // If loop song is enabled, the audio.loop property handles it
+    // Otherwise, play next song
+    if (!state.isLoopingSong) {
         playNext();
     }
 });
