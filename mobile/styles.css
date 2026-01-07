@@ -80,10 +80,7 @@ body {
         var(--bg-dark);
     display: flex;
     flex-direction: column;
-    padding-top: var(--safe-top);
-    padding-bottom: var(--safe-bottom);
-    padding-left: var(--safe-left);
-    padding-right: var(--safe-right);
+    /* No padding here - let background extend to edges */
 }
 
 /* ============================================
@@ -94,6 +91,9 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
+    padding-top: calc(16px + var(--safe-top));
+    padding-left: calc(20px + var(--safe-left));
+    padding-right: calc(20px + var(--safe-right));
     background: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--glass-border);
@@ -157,6 +157,8 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
+    padding-left: calc(20px + var(--safe-left));
+    padding-right: calc(20px + var(--safe-right));
 }
 
 .song-list-header h2 {
@@ -175,6 +177,8 @@ body {
     list-style: none;
     overflow-y: auto;
     padding: 0 12px;
+    padding-left: calc(12px + var(--safe-left));
+    padding-right: calc(12px + var(--safe-right));
     padding-bottom: 100px;
     /* Space for now playing bar */
     -webkit-overflow-scrolling: touch;
@@ -295,6 +299,8 @@ body {
     justify-content: space-between;
     padding: 10px 16px;
     padding-bottom: calc(10px + var(--safe-bottom));
+    padding-left: calc(16px + var(--safe-left));
+    padding-right: calc(16px + var(--safe-right));
     background: rgba(20, 20, 30, 0.95);
     backdrop-filter: blur(var(--glass-blur));
     border-top: 1px solid var(--glass-border);
