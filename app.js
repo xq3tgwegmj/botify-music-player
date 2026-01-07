@@ -498,98 +498,22 @@ function escapeHtml(text) {
 }
 
 // ============================================
-// Audio Visualizer (Dancing Background)
+// Background Animation (CSS-based, iOS compatible)
 // ============================================
-function setupVisualizer() {
-    if (state.isVisualizerSetup) return;
+// Note: We use CSS animations instead of Web Audio API
+// because createMediaElementSource breaks background audio on iOS
 
-    try {
-        // Create audio context
-        state.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-        // Create analyser node
-        state.analyser = state.audioContext.createAnalyser();
-        state.analyser.fftSize = 256;
-        state.analyser.smoothingTimeConstant = 0.8;
-
-        // Connect audio to analyser
-        const source = state.audioContext.createMediaElementSource(state.audio);
-        source.connect(state.analyser);
-        state.analyser.connect(state.audioContext.destination);
-
-        // Create data array for frequency data
-        const bufferLength = state.analyser.frequencyBinCount;
-        state.dataArray = new Uint8Array(bufferLength);
-
-        state.isVisualizerSetup = true;
-        console.log('Audio visualizer setup complete');
-
-        // Start animation loop
-        animateBackground();
-    } catch (e) {
-        console.log('Visualizer setup failed:', e);
+function updateBackgroundAnimation() {
+    if (state.isPlaying) {
+        document.body.classList.add('music-playing');
+    } else {
+        document.body.classList.remove('music-playing');
     }
 }
 
-function animateBackground() {
-    if (!state.analyser || !state.dataArray) {
-        requestAnimationFrame(animateBackground);
-        return;
-    }
-
-    // Get frequency data
-    state.analyser.getByteFrequencyData(state.dataArray);
-
-    // Calculate average levels for different frequency ranges
-    const bass = getAverageFrequency(0, 10);      // Low frequencies (bass)
-    const mid = getAverageFrequency(10, 50);      // Mid frequencies
-    const high = getAverageFrequency(50, 100);    // High frequencies
-
-    // Map to intensity values (0.1 to 0.4 for subtle to strong effect)
-    const bassIntensity = 0.1 + (bass / 255) * 0.3;
-    const midIntensity = 0.08 + (mid / 255) * 0.2;
-    const highIntensity = 0.08 + (high / 255) * 0.15;
-
-    // Apply to CSS custom properties
-    document.documentElement.style.setProperty('--bg-gradient-1', `rgba(139, 92, 246, ${bassIntensity})`);
-    document.documentElement.style.setProperty('--bg-gradient-2', `rgba(236, 72, 153, ${midIntensity})`);
-    document.documentElement.style.setProperty('--bg-gradient-3', `rgba(59, 130, 246, ${highIntensity})`);
-
-    // Scale effect for full player album art
-    const pulseScale = 1 + (bass / 255) * 0.03;
-    const albumArt = document.querySelector('.album-art');
-    if (albumArt && state.isPlaying) {
-        albumArt.style.transform = `scale(${pulseScale})`;
-    } else if (albumArt) {
-        albumArt.style.transform = 'scale(1)';
-    }
-
-    requestAnimationFrame(animateBackground);
-}
-
-function getAverageFrequency(startIndex, endIndex) {
-    if (!state.dataArray) return 0;
-
-    let sum = 0;
-    const count = Math.min(endIndex, state.dataArray.length) - startIndex;
-
-    for (let i = startIndex; i < Math.min(endIndex, state.dataArray.length); i++) {
-        sum += state.dataArray[i];
-    }
-
-    return count > 0 ? sum / count : 0;
-}
-
-// Setup visualizer when audio starts playing
-state.audio.addEventListener('play', () => {
-    if (!state.isVisualizerSetup) {
-        setupVisualizer();
-    }
-    // Resume audio context if suspended (iOS requirement)
-    if (state.audioContext && state.audioContext.state === 'suspended') {
-        state.audioContext.resume();
-    }
-});
+// Update animation state when playback changes
+state.audio.addEventListener('play', updateBackgroundAnimation);
+state.audio.addEventListener('pause', updateBackgroundAnimation);
 
 // ============================================
 // Initialize

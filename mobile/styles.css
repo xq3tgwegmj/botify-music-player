@@ -73,6 +73,39 @@ body {
     -webkit-user-select: none;
 }
 
+/* Dancing background when music plays */
+body.music-playing {
+    animation: backgroundPulse 2s ease-in-out infinite;
+}
+
+@keyframes backgroundPulse {
+
+    0%,
+    100% {
+        --bg-gradient-1: rgba(139, 92, 246, 0.15);
+        --bg-gradient-2: rgba(236, 72, 153, 0.1);
+        --bg-gradient-3: rgba(59, 130, 246, 0.1);
+    }
+
+    25% {
+        --bg-gradient-1: rgba(139, 92, 246, 0.25);
+        --bg-gradient-2: rgba(236, 72, 153, 0.15);
+        --bg-gradient-3: rgba(59, 130, 246, 0.08);
+    }
+
+    50% {
+        --bg-gradient-1: rgba(139, 92, 246, 0.18);
+        --bg-gradient-2: rgba(236, 72, 153, 0.22);
+        --bg-gradient-3: rgba(59, 130, 246, 0.12);
+    }
+
+    75% {
+        --bg-gradient-1: rgba(139, 92, 246, 0.12);
+        --bg-gradient-2: rgba(236, 72, 153, 0.12);
+        --bg-gradient-3: rgba(59, 130, 246, 0.18);
+    }
+}
+
 /* ============================================
    App Container
    ============================================ */
