@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Botify">
+    <meta name="theme-color" content="#0a0a0f">
+
+    <title>Botify</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="app-title">🎵 Botify</h1>
+            <button class="btn-add" id="add-songs-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12h14" />
+                </svg>
+            </button>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Song List -->
+            <div class="song-list-container">
+                <div class="song-list-header">
+                    <h2>Your Music</h2>
+                    <span class="song-count" id="song-count">0 songs</span>
+                </div>
+                <ul class="song-list" id="song-list">
+                    <li class="empty-state" id="empty-state">
+                        <div class="empty-icon">🎵</div>
+                        <p>No songs added yet</p>
+                        <button class="btn-add-songs" id="add-songs-empty-btn">Add Songs</button>
+                    </li>
+                </ul>
+            </div>
+        </main>
+
+        <!-- Now Playing Bar (mini) -->
+        <div class="now-playing-bar" id="now-playing-bar">
+            <div class="now-playing-info">
+                <div class="now-playing-art" id="mini-art">🎵</div>
+                <div class="now-playing-text">
+                    <span class="now-playing-title" id="mini-title">No song playing</span>
+                    <span class="now-playing-artist" id="mini-artist">Select a song</span>
+                </div>
+            </div>
+            <div class="now-playing-controls">
+                <button class="mini-control" id="mini-prev">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
+                    </svg>
+                </button>
+                <button class="mini-control play" id="mini-play">
+                    <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                    <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                </button>
+                <button class="mini-control" id="mini-next">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Full Player (expanded) -->
+        <div class="full-player" id="full-player">
+            <div class="full-player-header">
+                <button class="btn-collapse" id="collapse-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <span class="playing-from">Now Playing</span>
+                <div class="header-spacer"></div>
+            </div>
+
+            <div class="full-player-content">
+                <!-- Album Art -->
+                <div class="album-art" id="album-art">
+                    <div class="album-placeholder">🎵</div>
+                </div>
+
+                <!-- Song Info -->
+                <div class="song-info">
+                    <h1 class="song-title" id="song-title">No Song Selected</h1>
+                    <p class="song-artist" id="song-artist">Select a song to play</p>
+                </div>
+
+                <!-- Progress -->
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                        <div class="progress-thumb" id="progress-thumb"></div>
+                    </div>
+                    <div class="time-display">
+                        <span class="time" id="current-time">0:00</span>
+                        <span class="time" id="duration">0:00</span>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="controls">
+                    <button class="control-btn secondary" id="loop-song-btn" title="Loop Song">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 2l4 4-4 4" />
+                            <path d="M3 11v-1a4 4 0 014-4h14" />
+                            <path d="M7 22l-4-4 4-4" />
+                            <path d="M21 13v1a4 4 0 01-4 4H3" />
+                        </svg>
+                        <span class="loop-indicator">1</span>
+                    </button>
+                    <button class="control-btn secondary" id="loop-btn" title="Loop Playlist">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 2l4 4-4 4" />
+                            <path d="M3 11v-1a4 4 0 014-4h14" />
+                            <path d="M7 22l-4-4 4-4" />
+                            <path d="M21 13v1a4 4 0 01-4 4H3" />
+                        </svg>
+                    </button>
+                    <button class="control-btn" id="prev-btn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn play" id="play-btn">
+                        <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                        <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn" id="next-btn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn secondary" id="shuffle-btn" title="Shuffle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 3 21 3 21 8" />
+                            <line x1="4" y1="20" x2="21" y2="3" />
+                            <polyline points="21 16 21 21 16 21" />
+                            <line x1="15" y1="15" x2="21" y2="21" />
+                            <line x1="4" y1="4" x2="9" y2="9" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file input -->
+    <input type="file" id="file-input"
+        accept=".mp3,.m4a,.wav,.aac,.ogg,.flac,.webm,audio/mpeg,audio/mp4,audio/wav,audio/aac,audio/ogg,audio/flac,audio/webm"
+        multiple hidden>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
