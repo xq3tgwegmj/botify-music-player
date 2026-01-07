@@ -60,7 +60,6 @@ const elements = {
     prevBtn: document.getElementById('prev-btn'),
     nextBtn: document.getElementById('next-btn'),
     loopSongBtn: document.getElementById('loop-song-btn'),
-    loopBtn: document.getElementById('loop-btn'),
     shuffleBtn: document.getElementById('shuffle-btn')
 };
 
@@ -195,11 +194,6 @@ function toggleLoopSong() {
     elements.loopSongBtn.classList.toggle('active', state.isLoopingSong);
 }
 
-function toggleLoopPlaylist() {
-    state.isLoopingPlaylist = !state.isLoopingPlaylist;
-    elements.loopBtn.classList.toggle('active', state.isLoopingPlaylist);
-}
-
 function toggleShuffle() {
     state.isShuffling = !state.isShuffling;
     elements.shuffleBtn.classList.toggle('active', state.isShuffling);
@@ -237,7 +231,6 @@ elements.miniPrev.addEventListener('click', (e) => {
     playPrevious();
 });
 elements.loopSongBtn.addEventListener('click', toggleLoopSong);
-elements.loopBtn.addEventListener('click', toggleLoopPlaylist);
 elements.shuffleBtn.addEventListener('click', toggleShuffle);
 
 // Progress bar interaction
