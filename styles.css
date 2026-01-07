@@ -74,35 +74,33 @@ body {
 }
 
 /* Dancing background when music plays */
-body.music-playing {
-    animation: backgroundPulse 2s ease-in-out infinite;
+body.music-playing::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: -1;
+    background:
+        radial-gradient(ellipse at 20% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(236, 72, 153, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.2) 0%, transparent 60%);
+    animation: backgroundPulse 1.5s ease-in-out infinite;
 }
 
 @keyframes backgroundPulse {
 
     0%,
     100% {
-        --bg-gradient-1: rgba(139, 92, 246, 0.15);
-        --bg-gradient-2: rgba(236, 72, 153, 0.1);
-        --bg-gradient-3: rgba(59, 130, 246, 0.1);
-    }
-
-    25% {
-        --bg-gradient-1: rgba(139, 92, 246, 0.25);
-        --bg-gradient-2: rgba(236, 72, 153, 0.15);
-        --bg-gradient-3: rgba(59, 130, 246, 0.08);
+        opacity: 0.4;
+        transform: scale(1);
     }
 
     50% {
-        --bg-gradient-1: rgba(139, 92, 246, 0.18);
-        --bg-gradient-2: rgba(236, 72, 153, 0.22);
-        --bg-gradient-3: rgba(59, 130, 246, 0.12);
-    }
-
-    75% {
-        --bg-gradient-1: rgba(139, 92, 246, 0.12);
-        --bg-gradient-2: rgba(236, 72, 153, 0.12);
-        --bg-gradient-3: rgba(59, 130, 246, 0.18);
+        opacity: 1;
+        transform: scale(1.1);
     }
 }
 
