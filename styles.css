@@ -53,16 +53,22 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-html,
-body {
+html {
     height: 100%;
     overflow: hidden;
+    background:
+        radial-gradient(ellipse at 20% 20%, var(--bg-gradient-1) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, var(--bg-gradient-2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, var(--bg-gradient-3) 0%, transparent 60%),
+        var(--bg-dark);
 }
 
 body {
+    height: 100%;
+    overflow: hidden;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text-primary);
-    background: var(--bg-dark);
+    background: transparent;
     user-select: none;
     -webkit-user-select: none;
 }
